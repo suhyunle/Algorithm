@@ -25,29 +25,25 @@ M개
 """
 
 
-
-n,k = map(int, intput().split())
+#1 main()함수를 이용
+n,k = map(int, intput().split()) #n,m을 공백으로 구분하여 입력받기. 
 result =0
 
-# N이 K이상이라면 K로 계속나누기. 
-
-while n>=k:
-
-  #n이 K로 나누어 떨어지지 않는다면 N에서 1씩 빼기
-  while n % k!=0:
-    n-=1
-    result+=1
-
-
-
-#마지막으로 남은 수에 대하여 1씩 빼기
-
-
-while n>1:
-  n-=1
-  result+=1
-
+#한줄씩 입력받아 확인
+for i in range(n):
+  data = list(map(int,input().split()))
   
-  print(result)
+#2. 2중 반복문 구조를 이용
+n,k = map(int, intput().split()) #n,m을 공백으로 구분하여 입력받기. 
+result =0
+#한줄씩 입력받아 확인
+for i in range(n):
+  data =list(map(int,input().split()))
 
-\
+min_value= min (min_value) #가장 작은 수 들 중에서 가장 큰 수 찾기
+
+result = max (result, min_value)
+
+print(result) #최종 답안 출력
+
+
