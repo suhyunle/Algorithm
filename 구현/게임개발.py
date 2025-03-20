@@ -193,3 +193,82 @@ while True :
 print(cnt)
 
 
+----
+
+
+# 맵의 크기 입력 받기
+n, m = map(int, input().split())
+
+# 방문한 위치를 저장하기 위한 맵을 생성 (0으로 초기화)
+d = [[0] * m for _ in range(n)]
+
+# 현재 캐릭터의 x, y, 방향 입력 받기
+x, y, direction = map(int, input().split())
+
+# 현재 위치 방문 처리! (시작 지점)
+d[x][y] = 1
+
+# 전체 맵 정보 입력 받기
+array = []
+for i in range(n):
+    array.append(list(map(int, input().split())))
+
+# 북, 동, 남, 서 방향 정의
+# 북쪽이 0번, 동쪽이 1번, 남쪽이 2번, 서쪽이 3번
+dx = [-1, 0, 1, 0]  # x축 이동 (행 기준) → 북(-1), 동(0), 남(1), 서(0)
+dy = [0, 1, 0, -1]  # y축 이동 (열 기준) → 북(0), 동(1), 남(0), 서(-1)
+
+# 왼쪽으로 회전하는 함수
+def turn_left():
+    global direction
+    direction -= 1                 # 왼쪽으로 돌기! → 북(0) → 서(3) → 남(2) → 동(1)
+    if direction == -1:   # 만약 -1이 되면 다시 3으로 (서쪽)
+        direction = 3
+
+# 시뮬레이션 시작!
+count = 1        # 방문한 칸의 수 (시작 지점 포함)
+turn_time = 0    # 방향을 몇 번 돌았는지 (네 방향 다 봤을 때 판단하려고 씀)
+
+while True:
+    # 1. 왼쪽으로 회전한다!
+    turn_left()
+
+    # 2. 바라본 방향으로 한 칸 이동할 위치 계산
+    nx = x + dx[direction]
+    ny = y + dy[direction]
+
+    # 3. 이동할 수 있는가?
+    # 조건: 1) 방문 안 했고, 2) 육지(0)여야 한다
+    if d[nx][ny] == 0 and array[nx][ny] == 0:
+        # 갈 수 있다면 이동!
+        d[nx][ny] = 1    # 방문 처리!
+        x = nx
+        y = ny
+        count += 1       # 방문한 칸 수 증가
+        turn_time = 0    # 다시 네 방향 탐색을 위해 초기화
+        continue         # 이동했으니까 다시 처음으로 돌아가서 왼쪽 탐색 시작
+
+    # 4. 못 가면?
+    else:
+        turn_time += 1   # 방향만 돌렸으니까 회전 횟수 +1
+
+    # 5. 네 방향 다 봤는데 못 갔으면?
+    if turn_time == 4:
+        # 바라보는 방향에서 '뒤로' 한 칸 이동!
+        nx = x - dx[direction]
+        ny = y - dy[direction]
+
+        # 뒤로 갈 수 있으면 이동 (바다가 아니면 이동 가능)
+        if array[nx][ny] == 0:
+            x = nx
+            y = ny
+            turn_time = 0  # 후진했으니까 다시 왼쪽 탐색으로 초기화
+        # 뒤가 바다라면 → 게임 종료
+        else:
+            break
+
+# 최종 방문한 칸 수 출력
+print(count)
+
+
+
