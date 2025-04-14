@@ -17,7 +17,7 @@ road =[list(map(int, input())) for i in range(n)]
 dx=[-1,1,0,0]
 dy=[0,0,-1,1]
 
-def bfs(x,y):
+def escape(x,y):
     queue = [(x,y)]
     
     while queue:
@@ -28,19 +28,18 @@ def bfs(x,y):
             nx=x+dx[i]
             ny=y+dy[i]
 
-            # 범위 벗어나면 무시
             if nx<0 or ny<0 or nx>= n or ny>= m:
                 continue
 
-            # 벽이면 무시
+            
             if road[nx][ny]== 0:
                 continue
 
-            # 처음 방문하는 길이라면 거리 기록
+            # 처음 방문하는 길이라면 거리기록
             if road[nx][ny] == 1:
                 road[nx][ny] = road[x][y] +1
                 queue.append((nx, ny))
 
     return road[n-1][m-1]
 
-print(bfs(0, 0))
+print(escape(0, 0))
